@@ -15,7 +15,7 @@ export class NotionService {
   async createContactMessage({ name, email, message }: ContactMessageDto) {
     const contactData = await this.notion.pages.create({
       parent: {
-        database_id: '2995a3e6713d42ca80cff0c11a606eb8',
+        database_id: this.configService.get('NOTION_CONTACT_ID'),
       },
       properties: {
         Name: {
@@ -53,5 +53,34 @@ export class NotionService {
     });
 
     return contactData;
+  }
+
+  async getGuestBook() {
+    const guestbook = await this.notion.databases.query({
+      database_id: this.configService.get('NOTION_GUESTBOOK_ID'),
+    });
+
+    return guestbook;
+  }
+
+  async createGuestBook(message: string) {
+    const messageData = await this.notion.pages.create({
+      parent: {
+        database_id: this.configService.get('NOTION_GUESTBOOK_ID'),
+      },
+      properties: {
+        Message: {
+          type: 'title',
+          title: [
+            {
+              type: 'text',
+              text: {
+                content: message,
+              },
+            },
+          ],
+        },
+      },
+    });
   }
 }
