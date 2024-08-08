@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Client } from '@notionhq/client';
+import { ContactMessageDto } from './dtos/contact-message.dto';
 
 @Injectable()
 export class NotionService {
@@ -11,28 +12,46 @@ export class NotionService {
     });
   }
 
-  async test() {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const startDate = new Date(year, month - 1, 1).toISOString();
-    const endDate = new Date(year, month, 1).toISOString();
-
-
-    console.log(startDate, endDate)
-
-    const data = await this.notion.databases.query({
-      database_id: 'aad9f2bc00394a17a8dccaf1048ccdfc',
-      filter: {
-        property: '날짜',
-        date: {
-          on_or_after: startDate,
-          before: endDate
+  async createContactMessage({ name, email, message }: ContactMessageDto) {
+    const contactData = await this.notion.pages.create({
+      parent: {
+        database_id: '2995a3e6713d42ca80cff0c11a606eb8',
+      },
+      properties: {
+        Name: {
+          type: 'title',
+          title: [
+            {
+              type: 'text',
+              text: {
+                content: name,
+              },
+            },
+          ],
+        },
+        Message: {
+          rich_text: [
+            {
+              type: 'text',
+              text: {
+                content: message,
+              },
+            },
+          ],
+        },
+        Email: {
+          rich_text: [
+            {
+              type: 'text',
+              text: {
+                content: email,
+              },
+            },
+          ],
         },
       },
-      sorts: [{ property: '날짜', direction: 'descending' }],
     });
 
-    return data;
+    return contactData;
   }
 }

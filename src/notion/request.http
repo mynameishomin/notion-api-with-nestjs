@@ -1,0 +1,8 @@
+POST http://localhost:3000/notion/contact
+Content-Type: application/json
+
+{
+    "email": "test@gmail.com",
+    "name": "정호민",
+    "message": "안녕하세요"
+}
