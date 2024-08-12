@@ -7,6 +7,11 @@ import { GuestbookMessageDto } from './dtos/guestbook-message.dto';
 export class NotionController {
   constructor(private notionService: NotionService) {}
 
+  @Get('/budget')
+  async getBudgetData() {
+    return await this.notionService.getBudgetData();
+  }
+
   @Post('/contact')
   async createContactMessage(@Body() body: ContactMessageDto) {
     return await this.notionService.createContactMessage(body);

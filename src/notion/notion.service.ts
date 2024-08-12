@@ -12,6 +12,14 @@ export class NotionService {
     });
   }
 
+  async getBudgetData() {
+    const budgetData = await this.notion.databases.query({
+      database_id: this.configService.get('NOTION_BUDGET_ID'),
+    });
+
+    return budgetData;
+  }
+
   async createContactMessage({ name, email, message }: ContactMessageDto) {
     const contactData = await this.notion.pages.create({
       parent: {

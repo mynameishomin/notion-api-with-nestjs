@@ -7,5 +7,5 @@
 #     "message": "안녕하세요"
 # }
 
-GET  http://localhost:3000/notion/guestbook
+GET  http://localhost:3000/notion/budget
 Content-Type: application/json
