@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { NotionController } from './notion/notion.controller';
 import { NotionService } from './notion/notion.service';
 import { APP_PIPE } from '@nestjs/core';
+import { NotionModule } from './notion/notion.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { APP_PIPE } from '@nestjs/core';
       isGlobal: true,
       envFilePath: '.env',
     }),
+    NotionModule,
   ],
   controllers: [AppController, NotionController],
   providers: [
